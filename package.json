@@ -22,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/JoshWillik/node-cdn/issues"
   },
-  "homepage": "https://github.com/JoshWillik/node-cdn"
+  "homepage": "https://github.com/JoshWillik/node-cdn",
+  "dependencies": {
+    "bluebird": "^2.3.11",
+    "express": "^4.10.2",
+    "lodash": "^2.4.1",
+    "multer": "^0.1.6",
+    "sqlite3": "^3.0.4"
+  }
 }
