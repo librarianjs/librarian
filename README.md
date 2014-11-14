@@ -42,9 +42,14 @@ Returns the same data as `GET /<id>`
 
 Download the file
 
-#### GET /:bucket
+#### GET /b/:bucket
 
+Summary information about the bucket, as well as a list of files inside it.
 Get an array of `/:id/meta` objects for the files in this bucket
+
+#### PATCH /b/:bucket
+
+Patch permissions or extra.* flags for this bucket
 
 #### GET /:id/meta
 
@@ -75,7 +80,7 @@ If the system supports generating an embedded document for this kind of file, se
 
 ### File Modification
 
-#### PUT /:id
+#### PUT|PATCH /:id
 
 Overwrite the file with a new image of it.
 Triggers regeneration of all metadata, added attributes will be left alone
