@@ -23,6 +23,7 @@ var functions = [
   'bucketMeta',
   'modifyBucketMeta',
   'sendFile',
+  'sendFileResized',
   'sendFileMeta',
   'sendFilePreview',
   'sendFileEmbed',
@@ -31,8 +32,7 @@ var functions = [
 
   //Utility methods
   'init',
-  'rename',
-  'buffer'
+  'rename'
 ]
 
 functions.forEach( function( func ){
