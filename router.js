@@ -25,15 +25,14 @@ function buildRouter( strategy ){
    * File Access
    */
 
-  router.get( '/:id', strategy.sendFile )
-  router.get( '/:id/meta', strategy.sendFileMeta )
-  router.get( '/:id/preview', strategy.sendFilePreview )
-  router.get( '/:id/embed', strategy.sendFileEmbed )
-
-  router.get( '/:bucket/:id', strategy.sendFileMeta )
-  router.get( '/:bucket/:id/meta', strategy.sendFileMeta )
-  router.get( '/:bucket/:id/preview', strategy.sendFilePreview )
-  router.get( '/:bucket/:id/embed', strategy.sendFileEmbed )
+  router.get( '/(:bucket/)?:id', strategy.sendFile )
+  router.get( '/(:bucket/)?:id/meta', strategy.sendFileMeta )
+  router.get( '/(:bucket/)?:id/embed', strategy.sendFileEmbed )
+  router.get( '/(:bucket/)?:id/preview', strategy.sendFilePreview )
+  router.get( '/(:bucket/)?:id/sm(all)?', strategy.sendFileResized )
+  router.get( '/(:bucket/)?:id/med(ium)?', strategy.sendFileResized )
+  router.get( '/(:bucket/)?:id/large', strategy.sendFileResized )
+  router.get( '/(:bucket/)?:id/:width(x:height)?', strategy.sendFileResized )
 
   /*
    * Bucket Modification

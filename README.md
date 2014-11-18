@@ -68,6 +68,7 @@ Metadata about the file:
 - extra.*
 
 #### GET /:id/preview
+#### GET /:id/thumbnail
 
 A 256x256 or 512x512 preview of the file.
 If an image, a very small, compressed snippet of it. If a .pdf, a placeholder image:
@@ -78,12 +79,22 @@ If an image, a very small, compressed snippet of it. If a .pdf, a placeholder im
 
 If the system supports generating an embedded document for this kind of file, send that. Otherwise, send the preview.
 
+#### GET /:id/:width[x:height]
+#### GET /:id/sm[all]
+#### GET /:id/med[ium]
+#### GET /:id/large
+
+Get the file resized to the correct dimensions.
+If a proper thumbnail exists or can be created for this size, it is sent, otherwise `/:id/preview` is sent.
+
+If only a width is specified, the height will be auto-generated based on the original aspect ratio.
+
 ### File Modification
 
 #### PUT|PATCH /:id
 
-Overwrite the file with a new image of it.
-Triggers regeneration of all metadata, added attributes will be left alone
+Overwrite the file.
+Triggers regeneration of all metadata, added attributes will be untouched.
 
 #### PATCH /:id/meta
 Change any writable attributes of file metadata.
