@@ -11,41 +11,29 @@ function buildRouter( options ){
    * File Upload
    */
 
-  router.post( '/upload(/:bucket)?', multer, controller.upload )
-  router.put( '/upload(/:bucket)?', multer, controller.upload )
-
-  /*
-   * Bucket Access
-   */
-
-  router.get( '/b/:bucket', controller.bucketMeta )
+  router.post( '/upload', multer, controller.upload )
+  router.put( '/upload', multer, controller.upload )
 
   /*
    * File Access
    */
 
-  router.get( '/(:bucket/)?:id', controller.sendFile )
-  router.get( '/(:bucket/)?:id/meta', controller.sendFileMeta )
-  router.get( '/(:bucket/)?:id/embed', controller.sendFileEmbed )
-  router.get( '/(:bucket/)?:id/preview', controller.sendFilePreview )
-  router.get( '/(:bucket/)?:id/sm(all)?', controller.sendFileResized )
-  router.get( '/(:bucket/)?:id/med(ium)?', controller.sendFileResized )
-  router.get( '/(:bucket/)?:id/large', controller.sendFileResized )
-  router.get( '/(:bucket/)?:id/:width(x:height)?', controller.sendFileResized )
-
-  /*
-   * Bucket Modification
-   */
-
-  router.patch( '/b/:bucket', controller.modifyBucketMeta )
+  router.get( '/:id', controller.sendFile )
+  router.get( '/:id/meta', controller.sendFileMeta )
+  router.get( '/:id/embed', controller.sendFileEmbed )
+  router.get( '/:id/preview', controller.sendFilePreview )
+  router.get( '/:id/sm(all)?', controller.sendFileResized )
+  router.get( '/:id/med(ium)?', controller.sendFileResized )
+  router.get( '/:id/large', controller.sendFileResized )
+  router.get( '/:id/:width(x:height)?', controller.sendFileResized )
 
   /*
    * File Modification
    */
 
-  router.put( '/(:bucket/)?:id', files.overwriteFile )
-  router.patch( '/(:bucket/)?:id', files.overwriteFile )
-  router.patch( '/(:bucket/)?:id/meta', strategy.modifyFileMeta )
+  router.put( '/:id', files.overwriteFile )
+  router.patch( '/:id', files.overwriteFile )
+  router.patch( '/:id/meta', strategy.modifyFileMeta )
 
   return router
 }

@@ -26,7 +26,6 @@ app.listen( 8888 )
 ### File Upload
 
 #### POST|PUT /upload
-#### POST|PUT /upload/:bucket
 
 Upload the file. Potentially add flags for permissions and actions for this upload.
 
@@ -39,19 +38,8 @@ Returns the same data as `GET /<id>`
 ### File Access
 
 #### GET /:id
-#### GET /:bucket/:id
 
 Download the file
-
-#### GET /b/:bucket
-
-Summary information about the bucket, as well as a list of files inside it.
-Get an array of `/:id/meta` objects for the files in this bucket
-
-#### PATCH /b/:bucket
-
-Patch permissions or extra.* flags for this bucket
-
 #### GET /:id/meta
 
 Metadata about the file:
