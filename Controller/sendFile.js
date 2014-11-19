@@ -1,4 +1,3 @@
 module.exports = function( req, res, next ){
-  var id = req.params.id
-  this.options.metadataEngine.get
+  this.options.metadataEngine.getAsync( req.params.id ).then( res.send, next )
 }

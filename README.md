@@ -64,7 +64,7 @@ If an image, a very small, compressed snippet of it. If a .pdf, a placeholder im
 
 ![PDF LOGO](http://upload.wikimedia.org/wikipedia/commons/9/9b/Adobe_PDF_icon.png)
 
-#### GET /:id/embed
+#### GET /:id/embed (FUTURE)
 
 If the system supports generating an embedded document for this kind of file, send that. Otherwise, send the preview.
 
@@ -117,15 +117,13 @@ and an `Error` if there was another error.
 
 Write a new file over a pre-existing file.
 
-Should trigger the callback with a file buffer or pipe as the second argument.
-
 The first argument should be `null` if there was no error,
 true if the pre-existing file does not exist,
 and an `Error` if there was another error.
 
-#### `put( filePath, callback )`
+#### `put( filePath,, file, callback )`
 
-Should trigger the callback with a file buffer or pipe as the second argument.
+Write a new file to a the specified path
 
 The first argument should be `null` if there was no error
 and an `Error` if there was an error.
@@ -145,3 +143,9 @@ Should trigger the callback with a metadata object as the only argument
 #### `put( fileId, values, callback )`
 
 Should trigger the callback with a metadata object as the only argument
+
+#### `new( meta, callback )`
+
+Insert a new meta object into the metaEngine.
+
+Should trigger the callback with the created metadata object

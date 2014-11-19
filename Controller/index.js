@@ -1,3 +1,5 @@
+var Promise = require( 'bluebird' )
+
 function Controller( options ){
   this.options =  options
 }
