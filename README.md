@@ -3,6 +3,7 @@
 An express module responsible for managing dynamic file uploads and downloads:
 
 ## Features
+
 ### Existing
 - Uploading
 - Downloading
@@ -98,5 +99,61 @@ Triggers regeneration of all metadata, added attributes will be untouched.
 
 #### PATCH /:id/meta
 Change any writable attributes of file metadata.
+
 - File Name
 - Extra.* attributes
+
+## Alternate Storage and Metadata Engines
+
+Librarian comes with a storage and metadata engine.
+
+By default, the storage engine uses the local file system.
+
+By default, the metadata engine uses a local sqlite database.
+
+### Storage Engine
+
+The storage engine must implement the following methods
+
+#### `get( filePath, callback )`
+
+Retrieve the file from the storage location.
+
+Should trigger the callback with a file buffer or pipe as the second argument.
+
+The first argument should be `null` if there was no error,
+true if the file does not exist,
+and an `Error` if there was another error.
+
+#### `overwrite( filePath, file, callback )`
+
+Write a new file over a pre-existing file.
+
+Should trigger the callback with a file buffer or pipe as the second argument.
+
+The first argument should be `null` if there was no error,
+true if the pre-existing file does not exist,
+and an `Error` if there was another error.
+
+#### `put( filePath, callback )`
+
+Should trigger the callback with a file buffer or pipe as the second argument.
+
+The first argument should be `null` if there was no error
+and an `Error` if there was an error.
+
+### Metadata Engine
+
+The metadata engine must implement the following methods
+
+#### `get( fileId, callback )`
+
+Should trigger the callback with a metadata object as the only argument
+
+#### `patch( fileId, key, value, callback )`
+
+Should trigger the callback with a metadata object as the only argument
+
+#### `put( fileId, values, callback )`
+
+Should trigger the callback with a metadata object as the only argument

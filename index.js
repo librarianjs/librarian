@@ -1,12 +1,19 @@
 var express = require( 'express' )
 var routes = require( './router' )
+var LocalFiles = require( './LocalFiles' )
+var LocalMeta = require( './LocalMeta' )
 
-function buildLibrarian( strategy ){
-  strategy = strategy || new buildLibrarian.LocalStrategy()
+function buildLibrarian( options ){
+  options = options || {}
+  options.metadataEngine = options.metadataEngine || new LocalMetadata()
+  options.fileEngine = options.fileEngine || new LocalFiles()
+
   var app = express()
-  app.use( routes( strategy ) )
+  app.use( routes( options ) )
   return app
 }
 
-buildLibrarian.LocalStrategy = require( './LocalStrategy' )
+buildLibrarian.LocalFiles = LocalFiles
+buildLibrarian.LocalMeta = LocalMeta
+
 module.exports = buildLibrarian

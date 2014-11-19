@@ -1,57 +1,51 @@
 var express = require( 'express' )
 var multerLib = require( 'multer' )
+var Controller = require( './controller' )
 
-function buildRouter( strategy ){
+function buildRouter( options ){
   var router = express.Router()
-  multer = multerLib()
+  var multer = multerLib()
+  var controller = new Controller( options )
 
   /*
    * File Upload
    */
 
-  router.post( '/upload', multer, strategy.upload )
-  router.put( '/upload', multer, strategy.upload )
-
-  router.post( '/upload/:bucket', multer, strategy.upload )
-  router.put( '/upload/:bucket', multer, strategy.upload )
+  router.post( '/upload(/:bucket)?', multer, controller.upload )
+  router.put( '/upload(/:bucket)?', multer, controller.upload )
 
   /*
    * Bucket Access
    */
 
-  router.get( '/b/:bucket', strategy.bucketMeta )
+  router.get( '/b/:bucket', controller.bucketMeta )
 
   /*
    * File Access
    */
 
-  router.get( '/(:bucket/)?:id', strategy.sendFile )
-  router.get( '/(:bucket/)?:id/meta', strategy.sendFileMeta )
-  router.get( '/(:bucket/)?:id/embed', strategy.sendFileEmbed )
-  router.get( '/(:bucket/)?:id/preview', strategy.sendFilePreview )
-  router.get( '/(:bucket/)?:id/sm(all)?', strategy.sendFileResized )
-  router.get( '/(:bucket/)?:id/med(ium)?', strategy.sendFileResized )
-  router.get( '/(:bucket/)?:id/large', strategy.sendFileResized )
-  router.get( '/(:bucket/)?:id/:width(x:height)?', strategy.sendFileResized )
+  router.get( '/(:bucket/)?:id', controller.sendFile )
+  router.get( '/(:bucket/)?:id/meta', controller.sendFileMeta )
+  router.get( '/(:bucket/)?:id/embed', controller.sendFileEmbed )
+  router.get( '/(:bucket/)?:id/preview', controller.sendFilePreview )
+  router.get( '/(:bucket/)?:id/sm(all)?', controller.sendFileResized )
+  router.get( '/(:bucket/)?:id/med(ium)?', controller.sendFileResized )
+  router.get( '/(:bucket/)?:id/large', controller.sendFileResized )
+  router.get( '/(:bucket/)?:id/:width(x:height)?', controller.sendFileResized )
 
   /*
    * Bucket Modification
    */
 
-  router.patch( '/b/:bucket', strategy.modifyBucketMeta )
+  router.patch( '/b/:bucket', controller.modifyBucketMeta )
 
   /*
    * File Modification
    */
 
-  router.put( '/:id', strategy.overwriteFile )
-  router.patch( '/:id', strategy.overwriteFile )
-
-  router.put( '/:bucket/:id', strategy.overwriteFile )
-  router.patch( '/:bucket/:id', strategy.overwriteFile )
-
-  router.patch( '/:id/meta', strategy.modifyFileMeta )
-  router.patch( '/:bucket/:id/meta', strategy.modifyFileMeta )
+  router.put( '/(:bucket/)?:id', files.overwriteFile )
+  router.patch( '/(:bucket/)?:id', files.overwriteFile )
+  router.patch( '/(:bucket/)?:id/meta', strategy.modifyFileMeta )
 
   return router
 }
