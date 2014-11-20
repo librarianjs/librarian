@@ -36,3 +36,4 @@ node_modules
 
 #test files directory
 test
+*.sqlite

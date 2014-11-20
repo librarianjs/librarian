@@ -45,15 +45,12 @@ Download the file
 Metadata about the file:
 
 - ID
-- bucket
-- Fully qualified name (bucket + ID )
 - File Name
 - File Size
 - Mime-type
 - Caching Information
 - Play length (video)
 - Resolution (image|video)
-- Permissions
 - extra.*
 
 #### GET /:id/preview
@@ -134,7 +131,23 @@ The metadata engine must implement the following methods
 
 #### `get( fileId, callback )`
 
-Should trigger the callback with a metadata object as the only argument
+Access a metadata object about a file. Including at least the following:
+
+- ID
+- File Name
+- File Size
+- Mime-type
+- extra.*
+
+Should trigger the callback with a metadata object as the second argument.
+Pass any errors as the first argument, otherwise pass null
+
+#### `all( callback )`
+
+Access an array of all file metadata objects stored in the db.
+
+Should trigger the callback with the metadata as the second argument.
+Pass any errors as the first argument, otherwise pass null
 
 #### `patch( fileId, key, value, callback )`
 
