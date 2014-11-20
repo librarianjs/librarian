@@ -44,10 +44,10 @@ Download the file
 
 Metadata about the file:
 
-- ID
-- File Name
-- File Size
-- Mime-type
+- ID (id)
+- File Name (fileName)
+- File Size in bytes (fileSize)
+- Mime-type (mimeType)
 - Caching Information
 - Play length (video)
 - Resolution (image|video)
