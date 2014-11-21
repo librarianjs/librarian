@@ -151,9 +151,9 @@ Pass any errors as the first argument, otherwise pass null
 
 #### `patch( fileId, key, value, callback )`
 
-Should trigger the callback with a metadata object as the only argument
-
-#### `put( fileId, values, callback )`
+All provided keys will update the changeable values of the file.
+Some values are auto-generated, such as mime-type and file size.
+However, the filename and attributes can be updated in this manner.
 
 Should trigger the callback with a metadata object as the only argument
 
