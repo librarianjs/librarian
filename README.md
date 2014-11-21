@@ -118,7 +118,7 @@ The first argument should be `null` if there was no error,
 true if the pre-existing file does not exist,
 and an `Error` if there was another error.
 
-#### `put( filePath,, file, callback )`
+#### `put( metaId, file, callback )`
 
 Write a new file to a the specified path
 
@@ -149,7 +149,7 @@ Access an array of all file metadata objects stored in the db.
 Should trigger the callback with the metadata as the second argument.
 Pass any errors as the first argument, otherwise pass null
 
-#### `patch( fileId, key, value, callback )`
+#### `patch( fileId, newKeys, callback )`
 
 All provided keys will update the changeable values of the file.
 Some values are auto-generated, such as mime-type and file size.
