@@ -1,5 +1,7 @@
-var librarian = require( './lib' )
+var librarian = require( './lib' )()
 
-librarian().listen( 8888, function(){
-  console.log( 'Listening' )
+librarian.set( 'port', process.env.PORT || 4111 )
+
+librarian.listen( librarian.get( 'port' ), function(){
+  console.log( 'Listening on port ' + librarian.get( 'port' ) )
 } )
