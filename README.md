@@ -1,17 +1,11 @@
-# Librarian (PRE-ALPHA)
+# Librarian (Beta)
 
 An express module responsible for managing dynamic file uploads and downloads:
 
 ## Features
 
-### Existing
-- Uploading
-- Downloading
-
-### Planned
-- Previews
-- Compression
-- Caching Headers
+- Easy file uploading
+- Lazy file resizing
 
 ## Usage
 
@@ -27,19 +21,15 @@ app.listen( 8888 )
 
 #### POST|PUT /upload
 
-Upload the file. Potentially add flags for permissions and actions for this upload.
-
-- Compression (0-10)
-- Embeddable (true|false)
-- extra.* attributes (text)
-
-Returns the same data as `GET /<id>`
+Upload the file.
+Returns the same data as `GET /:id`
 
 ### File Access
 
 #### GET /:id
 
-Download the file
+Download the file with the correct mime-type. Images will be displayed in browser.
+
 #### GET /:id/meta
 
 Metadata about the file:
@@ -48,32 +38,22 @@ Metadata about the file:
 - File Name (fileName)
 - File Size in bytes (fileSize)
 - Mime-type (mimeType)
-- Caching Information
-- Play length (video)
-- Resolution (image|video)
-- extra.*
 
-#### GET /:id/preview
-#### GET /:id/thumbnail
-
-A 256x256 or 512x512 preview of the file.
-If an image, a very small, compressed snippet of it. If a .pdf, a placeholder image:
-
-![PDF LOGO](http://upload.wikimedia.org/wikipedia/commons/9/9b/Adobe_PDF_icon.png)
-
-#### GET /:id/embed (FUTURE)
-
-If the system supports generating an embedded document for this kind of file, send that. Otherwise, send the preview.
-
-#### GET /:id/:width[x:height]
-#### GET /:id/sm[all]
-#### GET /:id/med[ium]
+#### GET /:id/thumb[nail]
+#### GET /:id/small
+#### GET /:id/medium
 #### GET /:id/large
+#### GET /:id/:width[px]
 
 Get the file resized to the correct dimensions.
-If a proper thumbnail exists or can be created for this size, it is sent, otherwise `/:id/preview` is sent.
 
-If only a width is specified, the height will be auto-generated based on the original aspect ratio.
+- thumbnail = 256px
+- small = 512px
+- medium = 1024px
+- large = 2048px
+  :width = :widthpx
+
+If an invalid width is provided, the original file will be sent
 
 ### File Modification
 
@@ -86,79 +66,94 @@ Triggers regeneration of all metadata, added attributes will be untouched.
 Change any writable attributes of file metadata.
 
 - File Name
-- Extra.* attributes
 
-## Alternate Storage and Metadata Engines
+## Storage and Metadata Engines
 
-Librarian comes with a storage and metadata engine.
+Librarian requires metadata and storage engines to handle the actual file saving.
 
-By default, the storage engine uses the local file system.
+The packaged storage engine uses the local file system as file storage space,
+and the packaged metadata engine uses a local sqlite database to store metadata.
 
-By default, the metadata engine uses a local sqlite database.
+Librarian can store files and metadata on any platform provided that you supply it with a compatible engine.
+
+Hopefully, these storage engines will be supported in future:
+
+- Amazon S3
+- Google Cloud
+
+Ideally the following metadata engines would also be supported:
+
+- MySQL
+- PostreSQL
 
 ### Storage Engine
 
-The storage engine must implement the following methods
+The storage engine is responsible for saving and retrieving the actual file data.
+The location of the stored data does not matter to librarian.
 
-#### `get( filePath, callback )`
+A valid storage engine must be a Class that implements the following methods:
+
+#### `get( name, callback )`
 
 Retrieve the file from the storage location.
 
-Should trigger the callback with a file buffer or pipe as the second argument.
+Should trigger the callback with:
+1. `new Error( 'reason' )`, or `null` if there was no error.
+2. a Buffer or ReadableStream of the file.
 
-The first argument should be `null` if there was no error,
-true if the file does not exist,
-and an `Error` if there was another error.
+#### `put( name, file, callback )`
 
-#### `overwrite( filePath, file, callback )`
+Write a new file to a the specified path.
 
-Write a new file over a pre-existing file.
+`file` will be passed in as a ReadableStream
 
-The first argument should be `null` if there was no error,
-true if the pre-existing file does not exist,
-and an `Error` if there was another error.
-
-#### `put( metaId, file, callback )`
-
-Write a new file to a the specified path
-
-The first argument should be `null` if there was no error
-and an `Error` if there was an error.
+Should trigger the callback with:
+1. `new Error( 'reason' )`, or `null` if there was no error.
 
 ### Metadata Engine
 
-The metadata engine must implement the following methods
-
-#### `get( fileId, callback )`
-
-Access a metadata object about a file. Including at least the following:
+The metadata engine is responsible for storing various attributes about a file:
 
 - ID
 - File Name
 - File Size
 - Mime-type
-- extra.*
 
-Should trigger the callback with a metadata object as the second argument.
-Pass any errors as the first argument, otherwise pass null
+A valid metadata engine must be a Class that implements the following methods:
+
+#### `get( id, callback )`
+
+Access a metadata object about the file:
+
+- ID
+- File Name
+- File Size
+- Mime-type
+
+Should trigger the callback with:
+1. `new Error( 'reason' )`, or `null` if there was no error.
+2. a metadata object
 
 #### `all( callback )`
 
 Access an array of all file metadata objects stored in the db.
 
-Should trigger the callback with the metadata as the second argument.
-Pass any errors as the first argument, otherwise pass null
+Should trigger the callback with:
+1. `new Error( 'reason' )`, or `null` if there was no error.
+2. an array of all metadata objects
 
-#### `patch( fileId, newKeys, callback )`
+#### `patch( id, changedKeys, callback )`
 
-All provided keys will update the changeable values of the file.
-Some values are auto-generated, such as mime-type and file size.
-However, the filename and attributes can be updated in this manner.
+At this time, fileName is really the only changable attribute. This may change in future however.
 
-Should trigger the callback with a metadata object as the only argument
+Should trigger the callback with:
+1. `new Error( 'reason' )`, or `null` if there was no error.
+2. the new metadata object
 
 #### `new( meta, callback )`
 
 Insert a new meta object into the metaEngine.
 
-Should trigger the callback with the created metadata object
+Should trigger the callback with:
+1. `new Error( 'reason' )`, or `null` if there was no error.
+2. the new metadata object
