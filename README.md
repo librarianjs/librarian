@@ -57,11 +57,6 @@ If an invalid width is provided, the original file will be sent
 
 ### File Modification
 
-#### PUT|PATCH /:id
-
-Overwrite the file.
-Triggers regeneration of all metadata, added attributes will be untouched.
-
 #### PATCH /:id/meta
 Change any writable attributes of file metadata.
 
