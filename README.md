@@ -57,11 +57,6 @@ If an invalid width is provided, the original file will be sent
 
 ### File Modification
 
-#### PUT|PATCH /:id
-
-Overwrite the file.
-Triggers regeneration of all metadata, added attributes will be untouched.
-
 #### PATCH /:id/meta
 Change any writable attributes of file metadata.
 
@@ -98,6 +93,7 @@ A valid storage engine must be a Class that implements the following methods:
 Retrieve the file from the storage location.
 
 Should trigger the callback with:
+
 1. `new Error( 'reason' )`, or `null` if there was no error.
 2. a Buffer or ReadableStream of the file.
 
@@ -108,6 +104,7 @@ Write a new file to a the specified path.
 `file` will be passed in as a ReadableStream
 
 Should trigger the callback with:
+
 1. `new Error( 'reason' )`, or `null` if there was no error.
 
 ### Metadata Engine
@@ -131,6 +128,7 @@ Access a metadata object about the file:
 - Mime-type
 
 Should trigger the callback with:
+
 1. `new Error( 'reason' )`, or `null` if there was no error.
 2. a metadata object
 
@@ -139,6 +137,7 @@ Should trigger the callback with:
 Access an array of all file metadata objects stored in the db.
 
 Should trigger the callback with:
+
 1. `new Error( 'reason' )`, or `null` if there was no error.
 2. an array of all metadata objects
 
@@ -147,6 +146,7 @@ Should trigger the callback with:
 At this time, fileName is really the only changable attribute. This may change in future however.
 
 Should trigger the callback with:
+
 1. `new Error( 'reason' )`, or `null` if there was no error.
 2. the new metadata object
 
@@ -155,5 +155,6 @@ Should trigger the callback with:
 Insert a new meta object into the metaEngine.
 
 Should trigger the callback with:
+
 1. `new Error( 'reason' )`, or `null` if there was no error.
 2. the new metadata object
