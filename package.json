@@ -1,6 +1,6 @@
 {
   "name": "librarian",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A file management system for larger sites",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JoshWillik/node-cdn"
+    "url": "https://github.com/librarianjs/librarian"
   },
   "keywords": [
     "storage",
@@ -18,9 +18,9 @@
   "author": "Josh Vanderwillik",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JoshWillik/node-cdn/issues"
+    "url": "https://github.com/librarianjs/librarian/issues"
   },
-  "homepage": "https://github.com/JoshWillik/node-cdn",
+  "homepage": "https://github.com/librarianjs/librarian",
   "dependencies": {
     "bluebird": "^2.3.11",
     "express": "^4.10.2",
