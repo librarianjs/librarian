@@ -95,7 +95,7 @@ Retrieve the file from the storage location.
 Should trigger the callback with:
 
 1. `new Error( 'reason' )`, or `null` if there was no error.
-2. a Buffer or ReadableStream of the file.
+2. a Buffer or ReadableStream of the file, or false when there is no file.
 
 #### `put( name, file, callback )`
 

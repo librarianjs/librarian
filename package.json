@@ -23,6 +23,7 @@
   "homepage": "https://github.com/librarianjs/librarian",
   "dependencies": {
     "bluebird": "^2.3.11",
+    "body-parser": "^1.10.0",
     "express": "^4.10.2",
     "gm": "^1.17.0",
     "hashids": "^1.0.1",
@@ -31,6 +32,7 @@
     "lodash": "^2.4.1",
     "mime": "^1.2.11",
     "multer": "^0.1.6",
+    "request": "^2.49.0",
     "sequelize": "^2.0.0-rc2",
     "sqlite3": "^3.0.4"
   }

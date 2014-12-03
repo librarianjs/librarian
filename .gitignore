@@ -34,7 +34,5 @@ node_modules
 # CUSTOM
 #########
 
-#test files directory
-test
 *.sqlite
 files
