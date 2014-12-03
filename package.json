@@ -11,11 +11,9 @@
     "url": "https://github.com/JoshWillik/node-cdn"
   },
   "keywords": [
-    "cdn",
-    "file-storage",
+    "storage",
     "file",
-    "upload",
-    "static"
+    "upload"
   ],
   "author": "Josh Vanderwillik",
   "license": "ISC",
