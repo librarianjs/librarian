@@ -64,12 +64,12 @@ function testLibrarian(){
 }
 describe( 'Librarian', function(){
   var app = testLibrarian()
-  var port = 8888
+  var port = process.env.PORT || 8888
   var baseUrl = 'http://localhost:' + port
   var testFile = path.join( __dirname, 'test_image.png' )
 
   it( 'should start up', function( done ){
-    app.listen( 8888, function(){
+    app.listen( port, function(){
       done()
     })
   })
