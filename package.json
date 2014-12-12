@@ -1,6 +1,6 @@
 {
   "name": "librarian",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A file management system for larger sites",
   "main": "lib/index.js",
   "scripts": {
@@ -27,13 +27,11 @@
     "express": "^4.10.2",
     "gm": "^1.17.0",
     "hashids": "^1.0.1",
-    "librarian-local-meta": "^1.0.0",
+    "librarian-local-meta": "^1.0.2",
     "librarian-local-storage": "^1.0.0",
     "lodash": "^2.4.1",
     "mime": "^1.2.11",
     "multer": "^0.1.6",
-    "request": "^2.49.0",
-    "sequelize": "^2.0.0-rc2",
-    "sqlite3": "^3.0.4"
+    "request": "^2.49.0"
   }
 }
