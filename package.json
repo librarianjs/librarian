@@ -1,10 +1,11 @@
 {
   "name": "librarian",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A file management system for larger sites",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "start": "node auto.js"
   },
   "repository": {
     "type": "git",
@@ -26,12 +27,12 @@
     "body-parser": "^1.10.0",
     "express": "^4.10.2",
     "gm": "^1.17.0",
-    "hashids": "^1.0.1",
-    "librarian-local-meta": "^1.0.2",
+    "librarian-local-meta": "^1.0.3",
     "librarian-local-storage": "^1.0.0",
-    "lodash": "^2.4.1",
     "mime": "^1.2.11",
-    "multer": "^0.1.6",
-    "request": "^2.49.0"
+    "multer": "^0.1.6"
+  },
+  "devDependencies": {
+    "request": "^2.51.0"
   }
 }
