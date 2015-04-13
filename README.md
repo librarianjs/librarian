@@ -2,6 +2,12 @@
 
 An express module responsible for managing dynamic file uploads and downloads:
 
+## Installation
+
+```bash
+npm install librarian
+```
+
 ## Features
 
 - Easy file uploading
