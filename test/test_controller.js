@@ -123,6 +123,13 @@ describe( 'Librarian', function(){
     })
   })
 
+  it( 'should 404 when asked for a non-existant file with size', function( done ){
+    request( baseUrl + '/foobar/100', function( err, response, body ){
+      assert.equal( response.statusCode, 404 )
+      done()
+    })
+  })
+
   it( 'should allow patching of filename', function( done ){
     var fileName = 'my-test-file.png'
     request({
