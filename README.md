@@ -1,4 +1,4 @@
-# Librarian (Beta)
+# Librarian
 
 An express module responsible for managing dynamic file uploads and downloads:
 
@@ -17,150 +17,77 @@ npm install librarian
 
 Bare bones example app
 ```
-var app = require( 'librarian' )( options )
+var librarian = require('librarian')
+var app = librarian()
 app.listen( 8888 )
 ```
 
+## Storage and Metadata Engines
+
+Librarian accepts plugins for storage, caching, and file data.
+By default, librarian uses in memory implementations of all of these.
+You can probably get away with using the in memory cache for small setups,
+but **DO NOT** use the in memory storage/data plugins in production.
+
+### Supported Storage Engines
+
+- ✔ [In Memory](https://github.com/librarianjs/memory-storage)
+- ✔ [Amazon S3](https://github.com/librarianjs/s3-storage)
+- ✘ Google Cloud ([Help Develop](docs/creating-a-storage-plugin.md))
+- ✘ File System ([Help Develop](docs/creating-a-storage-plugin.md))
+- ✘ MySQL ([Help Develop](docs/creating-a-storage-plugin.md))
+
+### Supported Data Engines
+
+- ✔ [In Memory](https://github.com/librarianjs/memory-cache)
+- ✔ [MySQL](https://github.com/librarianjs/mysql-data)
+- ✘ PostreSQL ([Help Develop](docs/creating-a-data-plugin.md))
+- ✘ MongoDB ([Help Develop](docs/creating-a-data-plugin.md))
+
+###  Supported Cache Engines
+
+- ✔ [In Memory](https://github.com/librarianjs/memory-cache)
+- ✘ Redis ([Help Develop](docs/creating-a-cache-plugin.md))
+- ✘ File System ([Help Develop](docs/creating-a-cache-plugin.md))
+
 ## Endpoints
 
-### File Upload
+### POST /
 
-#### POST|PUT /upload
-
-Upload the file.
-Returns the same data as `GET /:id`
-
-### File Access
+Returns
+```js
+{
+  id: 'e10a0a08-1688-4dff-8a26-fea6ff32e2d4',
+  size: ​125731,
+  name: 'ducks.jpeg',
+  mimeType: 'image/jpeg'
+}
+```
 
 #### GET /:id
 
-Download the file with the correct mime-type. Images will be displayed in browser.
+Returns the image
 
-#### GET /:id/meta
+#### GET /:id/info
 
-Metadata about the file:
+Returns
+```js
+{
+  id: 'e10a0a08-1688-4dff-8a26-fea6ff32e2d4',
+  size: ​125731,
+  name: 'ducks.jpeg',
+  mimeType: 'image/jpeg'
+}
+```
 
-- ID (id)
-- File Name (fileName)
-- File Size in bytes (fileSize)
-- Mime-type (mimeType)
+#### GET /:id/:size
 
-#### GET /:id/thumb[nail]
-#### GET /:id/small
-#### GET /:id/medium
-#### GET /:id/large
-#### GET /:id/:width[px]
+Get a resized version of the file.
 
-Get the file resized to the correct dimensions.
+Size may be one of the following:
 
-- thumbnail = 256px
-- small = 512px
-- medium = 1024px
-- large = 2048px
-  :width = :widthpx
-
-If an invalid width is provided, the original file will be sent
-
-### File Modification
-
-#### PATCH /:id/meta
-Change any writable attributes of file metadata.
-
-- File Name
-
-## Storage and Metadata Engines
-
-Librarian requires metadata and storage engines to handle the actual file saving.
-
-The packaged storage engine uses the local file system as file storage space,
-and the packaged metadata engine uses a local sqlite database to store metadata.
-
-Librarian can store files and metadata on any platform provided that you supply it with a compatible engine.
-
-Hopefully, these storage engines will be supported in future:
-
-- Amazon S3
-- Google Cloud
-
-Ideally the following metadata engines would also be supported:
-
-- MySQL
-- PostreSQL
-
-### Storage Engine
-
-The storage engine is responsible for saving and retrieving the actual file data.
-The location of the stored data does not matter to librarian.
-
-A valid storage engine must be a Class that implements the following methods:
-
-#### `get( name, callback )`
-
-Retrieve the file from the storage location.
-
-Should trigger the callback with:
-
-1. `new Error( 'reason' )`, or `null` if there was no error.
-2. a Buffer or ReadableStream of the file, or false when there is no file.
-
-#### `put( name, file, callback )`
-
-Write a new file to a the specified path.
-
-`file` will be passed in as a ReadableStream
-
-Should trigger the callback with:
-
-1. `new Error( 'reason' )`, or `null` if there was no error.
-
-### Metadata Engine
-
-The metadata engine is responsible for storing various attributes about a file:
-
-- ID
-- File Name
-- File Size
-- Mime-type
-
-A valid metadata engine must be a Class that implements the following methods:
-
-#### `get( id, callback )`
-
-Access a metadata object about the file:
-
-- ID
-- File Name
-- File Size
-- Mime-type
-
-Should trigger the callback with:
-
-1. `new Error( 'reason' )`, or `null` if there was no error.
-2. a metadata object
-
-#### `all( callback )`
-
-Access an array of all file metadata objects stored in the db.
-
-Should trigger the callback with:
-
-1. `new Error( 'reason' )`, or `null` if there was no error.
-2. an array of all metadata objects
-
-#### `patch( id, changedKeys, callback )`
-
-At this time, fileName is really the only changable attribute. This may change in future however.
-
-Should trigger the callback with:
-
-1. `new Error( 'reason' )`, or `null` if there was no error.
-2. the new metadata object
-
-#### `new( meta, callback )`
-
-Insert a new meta object into the metaEngine.
-
-Should trigger the callback with:
-
-1. `new Error( 'reason' )`, or `null` if there was no error.
-2. the new metadata object
+- thumbnail (256px)
+- small (512px)
+- medium (1024px)
+- large (2048px)
+- a number of pixels
