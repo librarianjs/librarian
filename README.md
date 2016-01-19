@@ -39,7 +39,7 @@ but **DO NOT** use the in memory storage/data plugins in production.
 
 ### Supported Data Engines
 
-- ✔ [In Memory](https://github.com/librarianjs/memory-cache)
+- ✔ [In Memory](https://github.com/librarianjs/memory-data)
 - ✔ [MySQL](https://github.com/librarianjs/mysql-data)
 - ✘ PostreSQL ([Help Develop](docs/creating-a-data-plugin.md))
 - ✘ MongoDB ([Help Develop](docs/creating-a-data-plugin.md))
