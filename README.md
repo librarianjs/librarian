@@ -22,33 +22,52 @@ var app = librarian()
 app.listen( 8888 )
 ```
 
-## Storage and Metadata Engines
+## Options
 
-Librarian accepts plugins for storage, caching, and file data.
-By default, librarian uses in memory implementations of all of these.
-You can probably get away with using the in memory cache for small setups,
-but **DO NOT** use the in memory storage/data plugins in production.
+Librarian takes an options object that may contain any of the following keys:
 
-### Supported Storage Engines
+### cors
 
-- ✔ [In Memory](https://github.com/librarianjs/memory-storage)
+The cors value will be passed directly into the express [cors](https://www.npmjs.com/package/cors) middleware.
+If you leave this option out, cors will not be used.
+
+### storage
+
+A storage plugin is used to store the binary image data.
+
+- ✔ [In Memory](https://github.com/librarianjs/memory-storage) (default)
 - ✔ [Amazon S3](https://github.com/librarianjs/s3-storage)
 - ✘ Google Cloud ([Help Develop](docs/creating-a-storage-plugin.md))
 - ✘ File System ([Help Develop](docs/creating-a-storage-plugin.md))
 - ✘ MySQL ([Help Develop](docs/creating-a-storage-plugin.md))
 
-### Supported Data Engines
+### data
 
-- ✔ [In Memory](https://github.com/librarianjs/memory-data)
+A data plugin is used to store file metadata.
+This includes things like size, filename, and mimetype.
+
+- ✔ [In Memory](https://github.com/librarianjs/memory-data) (default)
 - ✔ [MySQL](https://github.com/librarianjs/mysql-data)
 - ✘ PostreSQL ([Help Develop](docs/creating-a-data-plugin.md))
 - ✘ MongoDB ([Help Develop](docs/creating-a-data-plugin.md))
 
-###  Supported Cache Engines
+### cache
 
-- ✔ [In Memory](https://github.com/librarianjs/memory-cache)
+A cache plugin is used to cache data fetched from the storage plugin.
+
+If this option is `false`, caching will be disabled.
+Otherwise it must be an instance of one of the following:
+
+- ✔ [In Memory](https://github.com/librarianjs/memory-cache) (default)
 - ✘ Redis ([Help Develop](docs/creating-a-cache-plugin.md))
 - ✘ File System ([Help Develop](docs/creating-a-cache-plugin.md))
+
+## Storage and Metadata Plugins
+
+Librarian accepts plugins for storage, caching, and file data.
+By default, librarian uses in memory implementations of all of these.
+You can probably get away with using the in memory cache for small setups,
+but **DO NOT** use the in memory storage/data plugins in production.
 
 ## Endpoints
 

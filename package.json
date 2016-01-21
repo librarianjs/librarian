@@ -24,6 +24,7 @@
   "homepage": "https://github.com/librarianjs/librarian",
   "dependencies": {
     "body-parser": "^1.10.0",
+    "cors": "^2.7.1",
     "express": "^4.10.2",
     "librarian-memory-cache": "^1.0.0",
     "librarian-memory-data": "^1.0.2",
