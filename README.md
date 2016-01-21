@@ -89,6 +89,7 @@ Returns
 The requested image or a blank 404
 
 **Presets**
+
 Name | Value
 --- | ---
 thumbnail | 256
