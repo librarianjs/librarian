@@ -58,36 +58,34 @@ Returns
 ```js
 {
   id: 'e10a0a08-1688-4dff-8a26-fea6ff32e2d4',
-  size: ​125731,
+  size: 125731,
   name: 'ducks.jpeg',
   mimeType: 'image/jpeg'
 }
 ```
 
-#### GET /:id
+#### GET /:id?width={preset,int}
 
-Returns the image
+**Response**
+The requested image or a blank 404
+
+**Presets**
+Name | Value
+--- | ---
+thumbnail | 256
+small | 512
+medium | 1024
+large | 2048
+
 
 #### GET /:id/info
 
-Returns
+**Response**
 ```js
 {
   id: 'e10a0a08-1688-4dff-8a26-fea6ff32e2d4',
-  size: ​125731,
+  size: 125731,
   name: 'ducks.jpeg',
   mimeType: 'image/jpeg'
 }
 ```
-
-#### GET /:id/:size
-
-Get a resized version of the file.
-
-Size may be one of the following:
-
-- thumbnail (256px)
-- small (512px)
-- medium (1024px)
-- large (2048px)
-- a number of pixels

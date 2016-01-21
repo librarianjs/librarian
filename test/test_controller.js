@@ -35,7 +35,7 @@ describe('Librarian', function(){
 
   it('should upload a file', function(done){
     let req = request.post({
-      url: baseUrl + '/upload',
+      url: baseUrl,
       json: true
     }, function(err, response, body){
       assert.equal(response.statusCode, 200)
@@ -68,7 +68,7 @@ describe('Librarian', function(){
 
   it('should resized file', function(done){
     request({
-      url: url() + '/10',
+      url: url() + '?width=10',
       json: true
     }, function(err, response, body){
       assert.equal(response.statusCode, 200)
@@ -84,7 +84,7 @@ describe('Librarian', function(){
   })
 
   it('should 404 when asked for a non-existant file with size', function(done){
-    request(baseUrl + '/foobar/100', function(err, response, body){
+    request(baseUrl + '/foobar?width=100', function(err, response, body){
       assert.equal(response.statusCode, 404)
       done()
     })
