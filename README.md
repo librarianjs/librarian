@@ -83,19 +83,27 @@ Returns
 }
 ```
 
-#### GET /:id?width={preset,int}
+#### GET /:id
 
-**Response**
-The requested image or a blank 404
+Get the image. Query params of `height`, `width`, and `max` can be supplied.
+
+If `max` is provided, `width` and `height` will be ignored.
+
+If both `height` and `width` are provided, the aspect ratio of the image will be maintained.
+The output image will fit completely within the `height` and `width` defined.
+
+`max`, `height`, and `width` can all be integers or one of the "presets".
 
 **Presets**
 
 Name | Value
 --- | ---
-thumbnail | 256
-small | 512
-medium | 1024
-large | 2048
+icon | 64
+thumbnail | 128
+small | 256
+medium | 512
+large | 1024
+huge | 2048
 
 
 #### GET /:id/info
