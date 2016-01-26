@@ -53,6 +53,17 @@ Should return a promise that resolves with an array of every id stored. This is 
 ]
 ```
 
+### init()
+
+Any plugin may also (optionally) provide an `init` method.
+If one is found, librarian will wait until the `init()` promise resolves before processing requests.
+
+This is a good way for plugins to check for the availability of external resources.
+
+The `init()` promise should resolve when the plugin is good to go,
+and should reject if the plugin will never be able to function correctly.
+An example of this would be invalid api keys for the [S3 Storage](https://github.com/librarianjs/s3-storage) plugin or bad connection details for the [Mysql Data](https://github.com/librarianjs/mysql-data) plugin.
+
 ## Tests
 
-Your `get`, `put`, and `getAll` methods should pass the [data plugin tests](plugin-tests/data-plugin.js).
+Your plugin should pass the [data plugin tests](plugin-tests/data-plugin.js).
