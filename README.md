@@ -48,6 +48,7 @@ This includes things like size, filename, and mimetype.
 
 - ✔ [In Memory](https://github.com/librarianjs/memory-data) (default)
 - ✔ [MySQL](https://github.com/librarianjs/mysql-data)
+- ✔ [File System](https://github.com/librarianjs/fs-data)
 - ✘ PostreSQL ([Help Develop](docs/creating-a-data-plugin.md))
 - ✘ MongoDB ([Help Develop](docs/creating-a-data-plugin.md))
 
