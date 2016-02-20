@@ -37,8 +37,8 @@ A storage plugin is used to store the binary image data.
 
 - ✔ [In Memory](https://github.com/librarianjs/memory-storage) (default)
 - ✔ [Amazon S3](https://github.com/librarianjs/s3-storage)
+- ✔ [File System](https://github.com/librarianjs/fs-storage)
 - ✘ Google Cloud ([Help Develop](docs/creating-a-storage-plugin.md))
-- ✘ File System ([Help Develop](docs/creating-a-storage-plugin.md))
 - ✘ MySQL ([Help Develop](docs/creating-a-storage-plugin.md))
 
 ### data
