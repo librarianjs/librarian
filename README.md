@@ -56,10 +56,8 @@ This includes things like size, filename, and mimetype.
 
 A cache plugin is used to cache data fetched from the storage plugin.
 
-If this option is `false`, caching will be disabled.
-Otherwise it must be an instance of one of the following:
-
-- ✔ [In Memory](https://github.com/librarianjs/memory-cache) (default)
+- ✔ none (default)
+- ✔ [In Memory](https://github.com/librarianjs/memory-cache)
 - ✘ Redis ([Help Develop](docs/creating-a-cache-plugin.md))
 - ✘ File System ([Help Develop](docs/creating-a-cache-plugin.md))
 
