@@ -1,6 +1,6 @@
 {
   "name": "librarian",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "A file management system for larger sites",
   "main": "lib/index.js",
   "scripts": {
