@@ -3,7 +3,6 @@
 const assert = require('assert')
 const librarian = require('../lib')
 const request = require('request')
-const rp = require('request-promise')
 const fs = require('fs')
 const path = require('path')
 const http = require('http-status-codes')
