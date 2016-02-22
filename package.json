@@ -26,6 +26,7 @@
     "body-parser": "^1.10.0",
     "cors": "^2.7.1",
     "express": "^4.10.2",
+    "http-status-codes": "^1.0.6",
     "librarian-memory-data": "^1.0.2",
     "librarian-memory-storage": "^1.0.1",
     "mime": "^1.2.11",
