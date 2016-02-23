@@ -34,6 +34,7 @@
     "sharp": "^0.12.2"
   },
   "devDependencies": {
+    "promise-wait": "^1.0.0",
     "request": "^2.51.0"
   }
 }
