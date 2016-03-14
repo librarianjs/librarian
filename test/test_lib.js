@@ -102,6 +102,7 @@ describe('Librarian', () => {
         assert.equal(response.statusCode, 200)
         assert(fileDataBuffer.compare(new Buffer(body)))
 
+        assert.equal(response.headers['content-type'], 'image/png')
         assert(response.headers['content-disposition'], 'Returned file missing content-disposition headers')
 
         let filename = response.headers['content-disposition'].split('=')[1]
