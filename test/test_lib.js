@@ -1,5 +1,7 @@
 'use strict'
 
+/* globals it, before, after, should, describe */
+
 const assert = require('assert')
 const librarian = require('../lib')
 const request = require('request')
@@ -45,7 +47,7 @@ describe('Librarian', () => {
   describe('with defaults', () => {
     let app
 
-    function url () {
+    function fileUrl () {
       return baseUrl + '/' + saved.id
     }
 
@@ -57,8 +59,8 @@ describe('Librarian', () => {
 
     before(() => {
       app = librarian({
-        data: new MemoryData,
-        storage: new MemoryStorage
+        data: new MemoryData(),
+        storage: new MemoryStorage()
       })
       fileDataBuffer = fs.readFileSync(testFile)
     })
@@ -95,17 +97,24 @@ describe('Librarian', () => {
       })
     })
 
-    it('should retreive the file', done => {
-      request(url(), (err, response, body) => {
+    it('should retrieve the file', done => {
+      request(fileUrl(), (err, response, body) => {
         assert.equal(response.statusCode, 200)
         assert(fileDataBuffer.compare(new Buffer(body)))
+
+        assert(response.headers['content-disposition'], 'Returned file missing content-disposition headers')
+
+        let filename = response.headers['content-disposition'].split('=')[1]
+        filename = filename.replace(/^"/, '')
+        filename = filename.replace(/"$/, '')
+        assert.equal(filename, 'test_image.png')
         done()
       })
     })
 
-    it('should retreive file meta', done => {
+    it('should retrieve file meta', done => {
       request({
-        url: url() + '/info',
+        url: fileUrl() + '/info',
         json: true
       }, function (err, response, body) {
         assert.equal(response.statusCode, 200)
@@ -119,7 +128,7 @@ describe('Librarian', () => {
 
     it('should resized file', done => {
       request({
-        url: url() + '?width=10',
+        url: fileUrl() + '?width=10',
         json: true
       }, (err, response, body) => {
         assert.equal(response.statusCode, 200)
@@ -136,6 +145,22 @@ describe('Librarian', () => {
 
     it('should 404 when asked for a non-existant file with size', done => {
       request(baseUrl + '/foobar?width=100', (err, response, body) => {
+        assert.equal(response.statusCode, 404)
+        done()
+      })
+    })
+
+    it('should 404 for debug only upload endpoint at /upload', done => {
+      request(baseUrl + '/upload', (err, response, body) => {
+        assert.equal(err, null)
+        assert.equal(response.statusCode, 404)
+        done()
+      })
+    })
+
+    it('should 404 for debug only list files endpoint at /', done => {
+      request(baseUrl + '/', (err, response, body) => {
+        assert.equal(err, null)
         assert.equal(response.statusCode, 404)
         done()
       })
@@ -158,8 +183,8 @@ describe('Librarian', () => {
     before(() => {
       fileDataBuffer = fs.readFileSync(testFile)
       app = librarian({
-        data: new AsyncMemoryData,
-        storage: new AsyncMemoryStorage
+        data: new AsyncMemoryData(),
+        storage: new AsyncMemoryStorage()
       })
     })
 
@@ -282,6 +307,40 @@ describe('Librarian', () => {
           return done(e)
         }
 
+        done()
+      })
+    })
+  })
+
+  describe('debug mode', () => {
+    let app
+    let port = process.env.PORT || randomPort()
+    let baseUrl = 'http://localhost:' + port
+
+    before(() => {
+      app = librarian({
+        debug: true
+      })
+    })
+
+    it('should start up', done => {
+      app.listen(port, done)
+    })
+
+    it('should show file upload form at /upload', done => {
+      request(baseUrl + '/upload', (error, response, body) => {
+        assert.equal(error, null)
+        assert.equal(response.statusCode, 200)
+        assert(/<form/.test(body), 'Could not find form element in response: ' + body)
+        done()
+      })
+    })
+
+    it('should list files', done => {
+      request({url: baseUrl + '/', json: true}, (error, response, body) => {
+        assert.equal(error, null)
+        assert.equal(response.statusCode, 200)
+        assert(Array.isArray(body), 'Response data not array: ' + body)
         done()
       })
     })
