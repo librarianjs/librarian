@@ -31,7 +31,7 @@
     "librarian-memory-storage": "^1.0.1",
     "mime": "^1.2.11",
     "multer": "^1.1.0",
-    "sharp": "^0.12.2"
+    "sharp": "*"
   },
   "devDependencies": {
     "promise-wait": "^1.0.0",
