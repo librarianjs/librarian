@@ -40,11 +40,10 @@ describe('CachePlugin', () => {
     })
   })
 
-  it('should delete invalid items after they have expired', function () {
+  it('should delete cache items after they have expired', function () {
     this.timeout(4000)
-
     return wait(2000).then(() => {
-      return plugin.get(FAKE_KEY)
+      return plugin.get(TEST_KEY)
     }).then(data => {
       assert.equal(data, null)
     })
