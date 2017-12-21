@@ -9,7 +9,7 @@ class InMemoryData {
   }
 
   init () {
-    return wait(3e3).then(() => {
+    return wait(100).then(() => {
       if (this.options.fail) {
         return Promise.reject(new Error('BAAAAAD ERROR'))
       }

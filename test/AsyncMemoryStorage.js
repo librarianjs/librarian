@@ -9,7 +9,7 @@ class InMemoryStorage {
   }
 
   init () {
-    return wait(1e3).then(() => {
+    return wait(200).then(() => {
       if (this.options.fail) {
         return Promise.reject(new Error('BAAAAAD ERROR'))
       }
