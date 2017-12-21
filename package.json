@@ -1,6 +1,6 @@
 {
   "name": "librarian",
-  "version": "2.13.1",
+  "version": "2.14.0",
   "description": "A file management system for larger sites",
   "main": "lib/index.js",
   "scripts": {
@@ -38,5 +38,7 @@
     "promise-wait": "^1.0.0",
     "request": "^2.51.0"
   },
-  "engines": {"node": ">=7.6"}
+  "engines": {
+    "node": ">=7.6"
+  }
 }
