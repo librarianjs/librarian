@@ -26,9 +26,16 @@ app.listen( 8888 )
 
 Librarian takes an options object that may contain any of the following keys:
 
+### maxSize
+
+The largest the longest side of images can be. If a max size is supplied, images
+will be resized **before** storing the original image. The original upload will
+be lost.
+
 ### cors
 
-The cors value will be passed directly into the express [cors](https://www.npmjs.com/package/cors) middleware.
+The cors value will be passed directly into the express
+[cors](https://www.npmjs.com/package/cors) middleware.
 If you leave this option out, cors will not be used.
 
 ### storage

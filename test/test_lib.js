@@ -16,9 +16,7 @@ const AsyncMemoryData = require('./AsyncMemoryData')
 let testFile = path.join(__dirname, 'test_image.png')
 let fileDataBuffer = fs.readFileSync(testFile)
 
-function randomPort () {
-  return Math.round(Math.random()*10000) + 1000
-}
+const random_port = () => Math.round(Math.random()*10000) + 1000
 
 function waitForInitStop (url, step, done) {
   if (step && !done) {
@@ -44,127 +42,130 @@ function waitForInitStop (url, step, done) {
   })
 }
 
-describe('Librarian', () => {
-  describe('with defaults', () => {
-    let app
-    function fileUrl () { return baseUrl + '/' + saved.id }
-    let port = process.env.PORT || randomPort()
-    let baseUrl = 'http://localhost:' + port
-    let testFile = path.join(__dirname, 'test_image.png')
-    let saved = null
+const basic_tests = (opt = {}) => {
+  let port = process.env.PORT || random_port()
+  let baseUrl = 'http://localhost:' + port
+  const file_url = () => baseUrl + '/' + saved.id
+  let testFile = path.join(__dirname, 'test_image.png')
+  let saved = null
+  let app
 
-    before(() => {
-      app = librarian({
-        data: new MemoryData(),
-        storage: new MemoryStorage()
-      })
-    })
+  before(() => {
+    app = librarian(Object.assign({
+      data: new MemoryData(),
+      storage: new MemoryStorage()
+    }, opt))
+  })
 
-    it('should start up', done => {
-      app.listen(port, function(){
-        done()
-      })
-    })
-
-    it('should upload a file', done => {
-      request.post({
-        url: baseUrl,
-        json: true
-      }, (err, response, body) => {
-        assert.equal(response.statusCode, http.CREATED)
-        assert.notEqual(body.id, undefined)
-        saved = body
-        done()
-      }).form().append('file', fs.createReadStream(testFile))
-    })
-
-    it('should fail with message for missing file', done => {
-      request({
-        url: baseUrl,
-        method: 'post',
-        json: true
-      }, (err, res, body) => {
-        assert.equal(res.statusCode, http.BAD_REQUEST)
-        assert(body.error)
-        assert.equal(body.error.type, 'missing_file')
-        assert.equal(body.error.message, 'Please POST with name `file`')
-        done()
-      })
-    })
-
-    it('should retrieve the file', done => {
-      request(fileUrl(), (err, response, body) => {
-        assert.equal(response.statusCode, 200)
-        assert(fileDataBuffer.compare(new Buffer(body)))
-        assert.equal(response.headers['content-type'], 'image/png')
-        assert(response.headers['content-disposition'], 'Returned file missing content-disposition headers')
-        let filename = response.headers['content-disposition'].split('=')[1]
-        filename = filename.replace(/^"/, '')
-        filename = filename.replace(/"$/, '')
-        assert.equal(filename, 'test_image.png')
-        done()
-      })
-    })
-
-    it('should retrieve file meta', done => {
-      request({
-        url: fileUrl() + '/info',
-        json: true
-      }, function (err, response, body) {
-        assert.equal(response.statusCode, 200)
-        assert.notEqual(body.id, undefined)
-        assert.notEqual(body.mimeType, undefined)
-        assert.notEqual(body.name, undefined)
-        assert.notEqual(body.size, undefined)
-        done()
-      })
-    })
-
-    it('should resized file', done => {
-      request({
-        url: fileUrl() + '?width=10',
-        json: true
-      }, (err, response, body) => {
-        assert.equal(response.statusCode, 200)
-        done()
-      })
-    })
-
-    it('should 404 when asked for a non-existant file', done => {
-      request(baseUrl + '/foobar', function (err, response, body) {
-        assert.equal(response.statusCode, 404)
-        done()
-      })
-    })
-
-    it('should 404 when asked for a non-existant file with size', done => {
-      request(baseUrl + '/foobar?width=100', (err, response, body) => {
-        assert.equal(response.statusCode, 404)
-        done()
-      })
-    })
-
-    it('should 404 for debug only upload endpoint at /upload', done => {
-      request(baseUrl + '/upload', (err, response, body) => {
-        assert.equal(err, null)
-        assert.equal(response.statusCode, 404)
-        done()
-      })
-    })
-
-    it('should 404 for debug only list files endpoint at /', done => {
-      request(baseUrl + '/', (err, response, body) => {
-        assert.equal(err, null)
-        assert.equal(response.statusCode, 404)
-        done()
-      })
+  it('should start up', done => {
+    app.listen(port, function(){
+      done()
     })
   })
+
+  it('should upload a file', done => {
+    request.post({
+      url: baseUrl,
+      json: true
+    }, (err, response, body) => {
+      assert.equal(response.statusCode, http.CREATED)
+      assert.notEqual(body.id, undefined)
+      saved = body
+      done()
+    }).form().append('file', fs.createReadStream(testFile))
+  })
+
+  it('should fail with message for missing file', done => {
+    request({
+      url: baseUrl,
+      method: 'post',
+      json: true
+    }, (err, res, body) => {
+      assert.equal(res.statusCode, http.BAD_REQUEST)
+      assert(body.error)
+      assert.equal(body.error.type, 'missing_file')
+      assert.equal(body.error.message, 'Please POST with name `file`')
+      done()
+    })
+  })
+
+  it('should retrieve the file', done => {
+    request(file_url(), (err, response, body) => {
+      assert.equal(response.statusCode, 200)
+      assert(fileDataBuffer.compare(new Buffer(body)))
+      assert.equal(response.headers['content-type'], 'image/png')
+      assert(response.headers['content-disposition'], 'Returned file missing content-disposition headers')
+      let filename = response.headers['content-disposition'].split('=')[1]
+      filename = filename.replace(/^"/, '')
+      filename = filename.replace(/"$/, '')
+      assert.equal(filename, 'test_image.png')
+      done()
+    })
+  })
+
+  it('should retrieve file meta', done => {
+    request({
+      url: file_url() + '/info',
+      json: true
+    }, function (err, response, body) {
+      assert.equal(response.statusCode, 200)
+      assert.notEqual(body.id, undefined)
+      assert.notEqual(body.mimeType, undefined)
+      assert.notEqual(body.name, undefined)
+      assert.notEqual(body.size, undefined)
+      done()
+    })
+  })
+
+  it('should resized file', done => {
+    request({
+      url: file_url() + '?width=10',
+      json: true
+    }, (err, response, body) => {
+      assert.equal(response.statusCode, 200)
+      done()
+    })
+  })
+
+  it('should 404 when asked for a non-existant file', done => {
+    request(baseUrl + '/foobar', function (err, response, body) {
+      assert.equal(response.statusCode, 404)
+      done()
+    })
+  })
+
+  it('should 404 when asked for a non-existant file with size', done => {
+    request(baseUrl + '/foobar?width=100', (err, response, body) => {
+      assert.equal(response.statusCode, 404)
+      done()
+    })
+  })
+
+  it('should 404 for debug only upload endpoint at /upload', done => {
+    request(baseUrl + '/upload', (err, response, body) => {
+      assert.equal(err, null)
+      assert.equal(response.statusCode, 404)
+      done()
+    })
+  })
+
+  it('should 404 for debug only list files endpoint at /', done => {
+    request(baseUrl + '/', (err, response, body) => {
+      assert.equal(err, null)
+      assert.equal(response.statusCode, 404)
+      done()
+    })
+  })
+}
+
+describe('Librarian', () => {
+  describe('with defaults', () => basic_tests())
+  describe('with maxSize', () => basic_tests({maxSize: 10}))
 
   describe('with async plugins', () => {
     let app
     function url () { return baseUrl + '/' + saved.id }
-    let port = process.env.PORT || randomPort()
+    let port = process.env.PORT || random_port()
     let baseUrl = 'http://localhost:' + port
     let testFile = path.join(__dirname, 'test_image.png')
     let saved = null
@@ -225,7 +226,7 @@ describe('Librarian', () => {
       return baseUrl + '/' + saved.id
     }
 
-    let port = process.env.PORT || randomPort()
+    let port = process.env.PORT || random_port()
     let baseUrl = 'http://localhost:' + port
     let saved = null
 
@@ -292,7 +293,7 @@ describe('Librarian', () => {
     let app
     let saved
     let cache = new SimpleCache()
-    let port = process.env.PORT || randomPort()
+    let port = process.env.PORT || random_port()
     let baseUrl = 'http://localhost:' + port
     function url () { return baseUrl + '/' + saved.id }
 
@@ -361,7 +362,7 @@ describe('Librarian', () => {
 
   describe('debug mode', () => {
     let app
-    let port = process.env.PORT || randomPort()
+    let port = process.env.PORT || random_port()
     let baseUrl = 'http://localhost:' + port
 
     before(() => {
