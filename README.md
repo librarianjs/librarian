@@ -15,11 +15,23 @@ npm install librarian
 
 ## Usage
 
-Bare bones example app
+Basic file server
+
 ```
 var librarian = require('librarian')
 var app = librarian()
 app.listen( 8888 )
+```
+
+Using in a larger site
+
+```
+var express = require('express')
+var librarian = require('librarian')
+var app = express()
+// all my custom routes
+app.use('/files', librarian({options}))
+app.listen(8888)
 ```
 
 ## Options
