@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha",
-    "start": "node demo.js"
+    "start": "node --inspect demo.js"
   },
   "repository": {
     "type": "git",
