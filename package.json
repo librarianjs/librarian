@@ -1,5 +1,5 @@
 {
-  "name": "librarian",
+  "name": "@joshwillik/librarian",
   "version": "2.16.0",
   "description": "A file management system for larger sites",
   "main": "lib/index.js",
