@@ -1,7 +1,7 @@
 {
   "name": "@joshwillik/librarian",
-  "version": "3.0.1",
-  "description": "A file management system for larger sites",
+  "version": "3.0.2",
+  "description": "An image upload/download module that supports dynamic reload",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha",
@@ -9,19 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/librarianjs/librarian"
+    "url": "https://gitlab.com/librarianjs/librarian"
   },
   "keywords": [
     "storage",
     "file",
     "upload"
   ],
-  "author": "Josh Vanderwillik",
+  "author": "Josh Vanderwillik <josh@willik.ca>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/librarianjs/librarian/issues"
+    "url": "https://gitlab.com/librarianjs/librarian/issues"
   },
-  "homepage": "https://github.com/librarianjs/librarian",
+  "homepage": "https://gitlab.com/librarianjs/librarian",
   "dependencies": {
     "body-parser": "^1.10.0",
     "cors": "^2.7.1",
@@ -31,8 +31,7 @@
     "librarian-memory-storage": "^1.0.1",
     "mime": "^1.2.11",
     "multer": "^1.1.0",
-    "node-uuid": "^1.4.7",
-    "sharp": "^0.15.0"
+    "node-uuid": "^1.4.7"
   },
   "peerDependencies": {
     "sharp": "^0.30.0"
