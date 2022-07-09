@@ -1,6 +1,6 @@
 {
   "name": "@joshwillik/librarian",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A file management system for larger sites",
   "main": "lib/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "sharp": "^0.15.0"
   },
   "peerDependencies": {
-    "sharp": "^0.15.0"
+    "sharp": "^0.30.0"
   },
   "devDependencies": {
     "promise-wait": "^1.0.0",
